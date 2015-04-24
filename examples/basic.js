@@ -19,7 +19,7 @@ var mcmsCartObj = require('../index'),
     conditions = mcmsCartObj.Conditions;
 
 var Condition = new conditions({
-    name : 'VAT',
+    name : 'VAT (18%)',
     type: 'tax',
     target : 'subtotal'
 });
@@ -40,27 +40,29 @@ app.use(Cart.init());
 app.use(WishList.init());
 
 app.get('/', function(req, res){
-    WishList.clear();
-    WishList.condition(Condition);//apply this condition to the entire cart
-    var newItem = Cart.add({id : 1, title : 'test product',price: 10,qty:1,conditions:Condition});
-    Cart.update(newItem.id,{title : 'new product',price : 12.17,qty : 2});
+    WishList.clear(req);
+    WishList.condition(Condition).condition(discountCondition);//apply this condition to the entire cart
+    //var newItem = Cart.add({id : 1, title : 'test product',price: 10,qty:1,conditions:Condition});
+    //Cart.update(newItem.id,{title : 'new product',price : 12.17,qty : 2});
     //Cart.update(newItem.id,4);
 
     //var newItem = Cart.add({id : 2, title : 'test product 2',price: 5,qty:1});
     //Cart.remove(newItem.id);
-    Cart.addMultiple([
+/*    Cart.addMultiple([
         {id : 3, title : 'test product 3',price: 10,qty:3,conditions:[Condition,discountCondition]},
         {id : 4, title : 'test product 4',price: 9,qty:1}
-    ]);
+    ]);*/
 
     WishList.add({id : 1, title : 'test product',price: 10,qty:1});
-
+    //Cart.removeConditionByType('tax',true);
+    //WishList.removeConditionByType('tax') ;
+    //Cart.clear(req);
     res.send({
         cart : Cart.fullCart(),
         wishList : WishList.fullCart()
     });
 });
 
-var server = app.listen(8003, function() {
+var server = app.listen(8083, function() {
     console.log('Express server listening on port ' + server.address().port);
 });
