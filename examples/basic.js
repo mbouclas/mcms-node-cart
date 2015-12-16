@@ -1,19 +1,4 @@
-var express = require('express');
-var expressSession = require('express-session');
-var cookieParser = require('cookie-parser');
-var app = express();
-var secret = 'myAppSecret';
-var expires = new Date(Date.now() + 36000);
-var Session = {
-    secret: secret,
-    saveUninitialized : false,
-    resave : false,
-    maxAge : expires,
-    cookie: { maxAge: expires }
-};
-var sessionStore = expressSession(Session);
-app.use(sessionStore);
-app.use(cookieParser(secret));
+var app = require('./express');
 var mcmsCartObj = require('../index'),
     mcmsCart = mcmsCartObj.Cart(app),
     conditions = mcmsCartObj.Conditions;
@@ -41,7 +26,7 @@ app.use(WishList.init());
 
 app.get('/', function(req, res){
     WishList.clear(req);
-    WishList.condition(Condition).condition(discountCondition);//apply this condition to the entire cart
+
     //var newItem = Cart.add({id : 1, title : 'test product',price: 10,qty:1,conditions:Condition});
     //Cart.update(newItem.id,{title : 'new product',price : 12.17,qty : 2});
     //Cart.update(newItem.id,4);
@@ -54,6 +39,8 @@ app.get('/', function(req, res){
     ]);*/
 
     WishList.add({id : 1, title : 'test product',price: 10,qty:1});
+    WishList.condition(Condition)
+        .condition(discountCondition);//apply this condition to the entire cart
     //Cart.removeConditionByType('tax',true);
     //WishList.removeConditionByType('tax') ;
     //Cart.clear(req);
@@ -61,6 +48,32 @@ app.get('/', function(req, res){
         cart : Cart.fullCart(),
         wishList : WishList.fullCart()
     });
+});
+
+app.get('/add',function(req,res,send){
+    Cart.add({id : 1, title : 'test product',price: 10,qty:1,conditions:Condition});
+    WishList.add({id : 1, title : 'test product',price: 10,qty:1});
+    res.send({
+        cart : Cart.fullCart(),
+        wishList : WishList.fullCart()
+    });
+});
+
+app.get('/clear',function(req,res,send){
+    Cart.clear();
+    res.send({
+        cart : Cart.fullCart(),
+        wishList : WishList.fullCart()
+    });
+});
+
+
+app.get('/get',function(req,res,send){
+    res.send({
+        cart : Cart.fullCart(),
+        wishList : WishList.fullCart()
+    });
+
 });
 
 var server = app.listen(8083, function() {

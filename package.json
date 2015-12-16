@@ -1,7 +1,7 @@
 {
   "name": "mcms-node-cart",
   "description": "mcms node cart module.",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "keywords": [
     "mcms",
     "cart",
@@ -24,9 +24,8 @@
     "MD5": "^1.2.1",
     "async": "~0.9.0",
     "lodash": "~2.4.1",
-    "wrench": "^1.5.8",
-    "coupon": "^0.4.0",
-    "discountable": "^1.0.0",
-    "money": "^0.2.0"
+    "moment": "^2.10.3",
+    "money": "^0.2.0",
+    "wrench": "^1.5.8"
   }
 }
