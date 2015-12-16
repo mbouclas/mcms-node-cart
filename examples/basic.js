@@ -60,7 +60,9 @@ app.get('/add',function(req,res,send){
 });
 
 app.get('/clear',function(req,res,send){
+
     Cart.clear();
+    req.session[Cart._key] = Cart.newSession();
     res.send({
         cart : Cart.fullCart(),
         wishList : WishList.fullCart()
@@ -69,6 +71,7 @@ app.get('/clear',function(req,res,send){
 
 
 app.get('/get',function(req,res,send){
+
     res.send({
         cart : Cart.fullCart(),
         wishList : WishList.fullCart()

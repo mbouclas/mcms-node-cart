@@ -1,7 +1,7 @@
 {
   "name": "mcms-node-cart",
   "description": "mcms node cart module.",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "keywords": [
     "mcms",
     "cart",
